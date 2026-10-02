@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pracownia Improwizacji</title>
+<meta name="description" content="Sylabus, ćwiczenia, kategorie i biblioteka zajęć z improwizacji prowadzonych przez Oskara Hamerskiego.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#start">Pracownia Improwizacji</a>
+    <nav class="nav" aria-label="Sekcje">
+      <a href="#generator">Generator</a>
+      <a href="#sylabus">Sylabus</a>
+      <a href="#cwiczenia">Ćwiczenia</a>
+      <a href="#kategorie">Kategorie</a>
+      <a href="#biblioteka">Biblioteka</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="start" class="hero">
+    <p class="tape">Improwizacja · Aktorstwo, II rok · 2026/27</p>
+    <h1 class="def">
+      <span class="def-k">Improwizacja</span>
+      to działanie, które pozwala, by jego własne <em>skutki</em> zmieniały jego dalszy <em>przebieg</em>.
+    </h1>
+    <div class="loop" aria-hidden="true">
+      <span>działanie</span><span class="arr">→</span><span>skutek</span><span class="arr">→</span><span>zmiana przebiegu</span><span class="arr ret">↺</span>
+    </div>
+    <p class="lead">Tu znajdziesz zasady zajęć, ćwiczenia, mapy, z których korzystamy na scenie, i lektury. Strona rośnie razem z semestrem.</p>
+    <p class="meta">Piątki 14:30–16:45 · prowadzi Oskar Hamerski</p>
+  </section>
+
+  <section id="generator" class="sec">
+    <div class="sec-h">
+      <p class="tape">Generator sceny</p>
+      <h2>Wylosuj punkt wyjścia</h2>
+      <p class="sec-lead">Emocja z koła Plutchika, działanie Labana, różnica statusu, miejsce i relacja. Zablokuj to, co Ci pasuje, i losuj resztę.</p>
+    </div>
+    <div id="gen" class="gen"></div>
+  </section>
+
+  <section id="sylabus" class="sec">
+    <div class="sec-h">
+      <p class="tape">Sylabus</p>
+      <h2>Zasady zajęć</h2>
+      <p class="sec-lead">Skrót najważniejszych zasad. W razie wątpliwości obowiązuje oficjalny sylabus Akademii.</p>
+    </div>
+    <div id="syl"></div>
+  </section>
+
+  <section id="cwiczenia" class="sec">
+    <div class="sec-h">
+      <p class="tape">Ćwiczenia</p>
+      <h2>Bank ćwiczeń</h2>
+      <p class="sec-lead">Ćwiczenia, które robimy na zajęciach. Możesz je powtarzać sam, w parze albo w grupie.</p>
+    </div>
+    <div id="cw"></div>
+  </section>
+
+  <section id="kategorie" class="sec">
+    <div class="sec-h">
+      <p class="tape">Kategorie</p>
+      <h2>Mapy do pracy na scenie</h2>
+      <p class="sec-lead">Narzędzia, którymi opisujemy emocję, ruch, relację i przestrzeń.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Kategorie">
+      <button role="tab" id="t-plutchik" data-tab="plutchik">Koło emocji Plutchika</button>
+      <button role="tab" id="t-laban" data-tab="laban">Wysiłki Labana</button>
+      <button role="tab" id="t-status" data-tab="status">Status Johnstone'a</button>
+      <button role="tab" id="t-propozycje" data-tab="propozycje">Propozycje i blokowanie</button>
+      <button role="tab" id="t-viewpoints" data-tab="viewpoints">Viewpoints</button>
+    </div>
+    <div id="p-plutchik" class="panel" role="tabpanel" aria-labelledby="t-plutchik"></div>
+    <div id="p-laban" class="panel" role="tabpanel" aria-labelledby="t-laban" hidden></div>
+    <div id="p-status" class="panel" role="tabpanel" aria-labelledby="t-status" hidden></div>
+    <div id="p-propozycje" class="panel" role="tabpanel" aria-labelledby="t-propozycje" hidden></div>
+    <div id="p-viewpoints" class="panel" role="tabpanel" aria-labelledby="t-viewpoints" hidden></div>
+  </section>
+
+  <section id="biblioteka" class="sec">
+    <div class="sec-h">
+      <p class="tape">Biblioteka</p>
+      <h2>Lektury</h2>
+      <p class="sec-lead">Jeśli nie ma linku, zapytaj mnie na zajęciach albo na Messengerze.</p>
+    </div>
+    <div id="bib"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Strona prowadzona przez Oskara Hamerskiego na potrzeby zajęć z improwizacji. Nie jest oficjalną stroną Akademii.</p>
+  </div>
+</footer>
+
+<script src="dane/sylabus.js"></script>
+<script src="dane/cwiczenia.js"></script>
+<script src="dane/kategorie.js"></script>
+<script src="dane/biblioteka.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
