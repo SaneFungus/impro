@@ -72,11 +72,7 @@ p { margin: 0; }
 /* Hero */
 .hero { padding-block: 56px 40px; display: grid; gap: 22px; justify-items: start; }
 .def { font-size: clamp(2rem, 5.6vw, 3.9rem); font-weight: 700; letter-spacing: -0.02em; max-width: 18ch; }
-.def-k { font-weight: 800; }
 .def em { font-style: normal; background: linear-gradient(transparent 62%, color-mix(in srgb, var(--tape) 70%, transparent) 62%); }
-.loop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font: 500 0.82rem var(--f-mono); color: var(--muted); }
-.loop span:not(.arr) { border: 1px solid var(--line); padding: 4px 10px; border-radius: 99px; background: var(--surface); }
-.loop .ret { font-size: 1.1rem; color: var(--accent); }
 .lead { max-width: 60ch; font-size: 1.12rem; }
 .meta { font: 500 0.8rem var(--f-mono); color: var(--muted); }
 
