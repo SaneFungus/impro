@@ -60,5 +60,12 @@ DANE.cwiczenia = [
     cel: "Postać budowana od ruchu.",
     wariacje: "Zmiana jakości w trakcie sceny pod wpływem partnera.",
     zrodlo: "na podstawie Rudolfa Labana"
+  },
+  {
+    nazwa: "Tresowanie delfina", tagi: ["grupa", "słuchanie", "ruch"], czas: "20–30 min", osoby: "cała grupa", zBliska: "tresowanie-delfina",
+    przebieg: "Jedna osoba (delfin) wychodzi z sali. Reszta (trenerzy) ustala proste zadanie, na przykład zamknąć okno albo przesunąć kotarę. Delfin wraca i szuka. Trenerzy nic nie mówią: klaszczą, kiedy delfin robi krok w dobrą stronę, poza tym milczą. Delfinem zostaje ochotnik i w każdej chwili może przerwać.",
+    cel: "Działanie zamiast zgadywania w głowie. Czytanie sygnałów grupy. Trenerzy ćwiczą wspólną uwagę i trafianie w czas.",
+    wariacje: "Coraz trudniejsze zadania: przedmiot, sekwencja, drugi człowiek, sposób zamiast czynności (np. «idź tak, jakbyś się spieszył»). Wersja «głośniej, ciszej»: grupa nuci bez przerwy, głośniej, gdy delfin się zbliża. Kreatywny delfin: klaszczemy tylko za ruch, którego jeszcze nie było.",
+    zrodlo: "Karen Pryor (Training Game); starsza wersja: Magic Music, Neva Boyd"
   }
 ];

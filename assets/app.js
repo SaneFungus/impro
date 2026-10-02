@@ -60,7 +60,7 @@
         return (c.nazwa + " " + c.przebieg + " " + c.cel + " " + c.tagi.join(" ")).toLowerCase().indexOf(cwStan.q) >= 0;
       });
       $("#cw-list").innerHTML = wynik.length ? wynik.map(function (c) {
-        return '<details class="cw"><summary><h3>' + esc(c.nazwa) + "</h3>" +
+        return '<details class="cw"' + (c.zBliska ? ' id="cw-' + esc(c.zBliska) + '"' : "") + '><summary><h3>' + esc(c.nazwa) + "</h3>" +
           '<span class="chip">' + esc(c.czas) + '</span><span class="chip">' + esc(c.osoby) + "</span>" +
           (c.przyklad ? '<span class="chip todo">przykład</span>' : "") + "</summary>" +
           '<div class="cw-body"><div class="cw-tags">' + c.tagi.map(function (t) { return '<span class="chip">' + esc(t) + "</span>"; }).join("") + "</div>" +
@@ -68,6 +68,7 @@
           '<p><span class="k">Czego uczy</span>' + esc(c.cel) + "</p>" +
           (c.wariacje ? '<p><span class="k">Wariacje</span>' + esc(c.wariacje) + "</p>" : "") +
           (c.zrodlo ? '<p><span class="k">Źródło</span>' + esc(c.zrodlo) + "</p>" : "") +
+          (c.zBliska ? '<p><a class="more" href="#gra-' + esc(c.zBliska) + '">Przeczytaj o tej grze z bliska ↓</a></p>' : "") +
           "</div></details>";
       }).join("") : '<p class="empty">Brak ćwiczeń dla tych filtrów.</p>';
     }
@@ -294,6 +295,30 @@
     losuj();
   }
 
+  // ---------- Gry z bliska ----------
+  var md = function (s) { return esc(s).replace(/\*([^*]+)\*/g, "<em>$1</em>"); };
+  function renderGry() {
+    var box = $("#gry");
+    if (!box) return;
+    var akapity = function (a) { return (a || []).map(function (p) { return "<p>" + md(p) + "</p>"; }).join(""); };
+    box.innerHTML = (D.gry || []).map(function (g) {
+      return '<article class="gra" id="gra-' + esc(g.id) + '">' +
+        '<header class="gra-h"><h3>' + esc(g.nazwa) + '</h3><a class="more" href="#cw-' + esc(g.id) + '">Zasady gry w Banku ćwiczeń ↑</a></header>' +
+        '<div class="gra-rdzen">' + akapity(g.rdzen) + "</div>" +
+        (g.zadanie ? '<p class="gra-zad"><span class="k">Zadanie</span>' + md(g.zadanie) + "</p>" : "") +
+        g.warstwy.map(function (w, i) {
+          return '<details class="warstwa g' + (i + 1) + '"><summary><span class="strz">' + "↓".repeat(i + 1) + "</span>" + esc(w.tytul) + "</summary>" +
+            '<div class="warstwa-body">' + akapity(w.akapity) + (w.pytanie ? '<p class="gra-pyt">' + md(w.pytanie) + "</p>" : "") + "</div></details>";
+        }).join("") + "</article>";
+    }).join("") || '<p class="empty">Wkrótce.</p>';
+    // Link do ćwiczenia otwiera jego kartę; jeśli filtr ją ukrył, przewija do banku.
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest('a[href^="#cw-"]'); if (!a) return;
+      var d = document.getElementById(a.getAttribute("href").slice(1));
+      if (d) d.open = true; else { e.preventDefault(); $("#cwiczenia").scrollIntoView(); }
+    });
+  }
+
   // ---------- Biblioteka ----------
   var bibFiltr = "wszystko";
   function renderBiblioteka() {
@@ -319,6 +344,7 @@
   function start() {
     renderSylabus();
     renderCwiczenia();
+    renderGry();
     renderPlutchik();
     renderLaban();
     renderStatus();

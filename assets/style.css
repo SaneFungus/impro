@@ -137,6 +137,25 @@ p { margin: 0; }
 .cw-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .empty { color: var(--muted); font-style: italic; }
 
+/* Gry z bliska: rdzeń widoczny, dygresje schodzą coraz głębiej */
+#gry { display: grid; gap: 16px; }
+.gra { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px 20px 8px; display: grid; gap: 16px; max-width: 74ch; min-width: 0; }
+.gra-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.gra-h h3 { font-size: 1.5rem; }
+.more { font: 500 0.8rem var(--f-mono); }
+.gra-rdzen { display: grid; gap: 10px; font-size: 1.08rem; }
+.gra-zad { border-left: 4px solid var(--tape); padding: 4px 0 4px 14px; }
+.gra .k { font: 500 0.72rem var(--f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); display: block; }
+.warstwa { border-top: 1px solid var(--line); }
+.warstwa.g2 { margin-left: 14px; }
+.warstwa.g3 { margin-left: 28px; }
+@media (max-width: 520px) { .warstwa.g2, .warstwa.g3 { margin-left: 0; } }
+.warstwa summary { list-style: none; cursor: pointer; padding: 12px 0; font: 700 1.02rem var(--f-display); display: flex; gap: 10px; align-items: baseline; }
+.warstwa summary::-webkit-details-marker { display: none; }
+.warstwa .strz { font-family: var(--f-mono); color: var(--accent); min-width: 3ch; }
+.warstwa-body { display: grid; gap: 10px; padding-bottom: 16px; }
+.gra-pyt { font: 700 1.2rem/1.3 var(--f-display); }
+
 /* Zakładki kategorii */
 .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
 .tabs button { font: 700 0.95rem var(--f-display); white-space: nowrap; border: 0; background: transparent; color: var(--muted); padding: 10px 12px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -5px; }
