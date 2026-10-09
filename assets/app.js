@@ -240,32 +240,52 @@
   }
 
   // ---------- Generator ----------
-  var gen = { lock: {}, v: {} };
+  var gen = { off: {}, v: {} };
   var GEN_KLUCZE = ["emocja", "laban", "status", "miejsce", "relacja"];
+  function losujPole(k) {
+    var L = D.laban, G = D.generator;
+    if (k === "emocja") gen.v.emocja = { i: Math.floor(Math.random() * 8), s: Math.floor(Math.random() * 3) };
+    else if (k === "laban") gen.v.laban = pick(Object.keys(L.dzialania));
+    else if (k === "status") { var a = 1 + Math.floor(Math.random() * 10), b; do { b = 1 + Math.floor(Math.random() * 10); } while (b === a); gen.v.status = [a, b]; }
+    else if (k === "miejsce") gen.v.miejsce = pick(G.miejsca);
+    else if (k === "relacja") gen.v.relacja = pick(G.relacje);
+  }
   function losuj() {
-    var P = D.plutchik, L = D.laban, G = D.generator;
-    if (!gen.lock.emocja) gen.v.emocja = { i: Math.floor(Math.random() * 8), s: Math.floor(Math.random() * 3) };
-    if (!gen.lock.laban) gen.v.laban = pick(Object.keys(L.dzialania));
-    if (!gen.lock.status) { var a = 1 + Math.floor(Math.random() * 10), b; do { b = 1 + Math.floor(Math.random() * 10); } while (b === a); gen.v.status = [a, b]; }
-    if (!gen.lock.miejsce) gen.v.miejsce = pick(G.miejsca);
-    if (!gen.lock.relacja) gen.v.relacja = pick(G.relacje);
+    var wybrane = GEN_KLUCZE.filter(function (k) { return !gen.off[k]; });
+    wybrane.forEach(losujPole);
     genRysuj();
+    $("#gen-msg").textContent = wybrane.length ? "" : "Zaznacz co najmniej jedną rzecz do losowania.";
   }
   function genTekst() {
-    var P = D.plutchik, L = D.laban, v = gen.v, e = P.emocje[v.emocja.i];
-    return "Miejsce: " + v.miejsce + ". Relacja: " + v.relacja + ". A zaczyna w emocji: " + e.stopnie[v.emocja.s] +
-      ", ruch: " + L.dzialania[v.laban].nazwa + ". Status: A " + v.status[0] + "/10, B " + v.status[1] + "/10.";
+    var P = D.plutchik, L = D.laban, v = gen.v, c = [], on = function (k) { return !gen.off[k]; };
+    if (on("miejsce")) c.push("Miejsce: " + v.miejsce + ".");
+    if (on("relacja")) c.push("Relacja: " + v.relacja + ".");
+    if (on("emocja")) c.push((on("relacja") || on("miejsce") ? "A zaczyna w emocji: " : "Emocja: ") + P.emocje[v.emocja.i].stopnie[v.emocja.s] + ".");
+    if (on("laban")) c.push("Ruch: " + L.dzialania[v.laban].nazwa + ".");
+    if (on("status")) c.push("Status: A " + v.status[0] + "/10, B " + v.status[1] + "/10.");
+    return c.join(" ") || "Nic nie wybrano do losowania.";
+  }
+  function skalaEmocji(e, s) {
+    var slowo = ["słabe", "średnie", "silne"][s];
+    return '<span class="skala" role="img" aria-label="Natężenie: ' + slowo + ", " + (s + 1) + ' na 3">' +
+      '<span class="skala-t">Natężenie: ' + slowo + " (" + (s + 1) + "/3)</span>" +
+      '<span class="skala-p">' + e.stopnie.map(function (n, k) {
+        return '<span class="skala-s' + (k <= s ? " on" : "") + (k === s ? " cur" : "") + '"' + (k <= s ? ' style="background:' + kolor(e.odcien, k) + '"' : "") + "></span>";
+      }).join("") + "</span>" +
+      '<span class="skala-n">' + e.stopnie.map(function (n, k) { return '<span class="' + (k === s ? "cur" : "") + '">' + esc(n) + "</span>"; }).join("") + "</span></span>";
   }
   function genRysuj() {
     var P = D.plutchik, L = D.laban, v = gen.v, e = P.emocje[v.emocja.i], la = L.dzialania[v.laban];
     var karta = function (k, lab, wart, sub) {
-      return '<div class="gcard"><span class="lab">' + lab + '<button class="lock" data-k="' + k + '" aria-pressed="' + !!gen.lock[k] + '">' + (gen.lock[k] ? "zablokowane" : "zablokuj") + "</button></span>" +
-        '<span class="val">' + wart + '</span><span class="sub">' + sub + "</span></div>";
+      if (gen.off[k]) return "";
+      return '<div class="gcard"><span class="lab">' + lab + "</span>" +
+        '<span class="val">' + wart + '</span><span class="sub">' + sub + "</span>" +
+        '<span class="gtools"><button class="lock" data-k="' + k + '" title="Wylosuj tylko to okienko">↻ losuj to</button></span></div>';
     };
     var opisLaban = L.czynniki.map(function (f, k) { return f.bieguny[+v.laban[k]]; }).join(", ");
     var wyz = v.status[0] > v.status[1] ? "A gra wyżej" : "B gra wyżej";
     $("#gen-grid").innerHTML =
-      karta("emocja", "Emocja", '<span class="swatch" style="background:' + kolor(e.odcien, v.emocja.s) + '"></span>' + esc(e.stopnie[v.emocja.s]), "z rodziny: " + esc(e.nazwa)) +
+      karta("emocja", "Emocja", '<span class="swatch" style="background:' + kolor(e.odcien, v.emocja.s) + '"></span>' + esc(e.stopnie[v.emocja.s]), "z rodziny: " + esc(e.nazwa) + skalaEmocji(e, v.emocja.s)) +
       karta("laban", "Ruch (Laban)", esc(la.nazwa), esc(opisLaban)) +
       karta("status", "Status", "A " + v.status[0] + " · B " + v.status[1], wyz + ", różnica " + Math.abs(v.status[0] - v.status[1])) +
       karta("miejsce", "Miejsce", esc(v.miejsce), "") +
@@ -273,13 +293,21 @@
     $("#gen-txt").textContent = genTekst();
   }
   function initGen() {
-    $("#gen").innerHTML = '<div class="gen-grid" id="gen-grid"></div><div class="gen-actions">' +
+    var NAZWY = { emocja: "Emocja", laban: "Ruch (Laban)", status: "Status", miejsce: "Miejsce", relacja: "Relacja" };
+    $("#gen").innerHTML = '<fieldset class="gen-pick"><legend>Co losujemy?</legend>' + GEN_KLUCZE.map(function (k) {
+      return '<label class="chk"><input type="checkbox" class="inc-cb" data-k="' + k + '" checked><span>' + NAZWY[k] + "</span></label>";
+    }).join("") + '</fieldset><div class="gen-grid" id="gen-grid"></div><div class="gen-actions">' +
       '<button class="btn primary" id="gen-los">Losuj</button><button class="btn" id="gen-kop">Kopiuj opis</button>' +
       '<span class="gen-note" id="gen-msg" aria-live="polite"></span></div><p class="gen-note" id="gen-txt"></p>';
     $("#gen-los").addEventListener("click", losuj);
     $("#gen-grid").addEventListener("click", function (e) {
       var b = e.target.closest(".lock"); if (!b) return;
-      gen.lock[b.dataset.k] = !gen.lock[b.dataset.k]; genRysuj();
+      losujPole(b.dataset.k); genRysuj();
+    });
+    document.querySelector(".gen-pick").addEventListener("change", function (e) {
+      var c = e.target.closest(".inc-cb"); if (!c) return;
+      gen.off[c.dataset.k] = !c.checked; genRysuj();
+      $("#gen-msg").textContent = GEN_KLUCZE.some(function (k) { return !gen.off[k]; }) ? "" : "Zaznacz co najmniej jedną rzecz do losowania.";
     });
     $("#gen-kop").addEventListener("click", function () {
       var t = genTekst(), msg = $("#gen-msg");
@@ -292,7 +320,8 @@
         navigator.clipboard.writeText(t).then(function () { msg.textContent = "Skopiowano."; }, zaznacz);
       } catch (err) { zaznacz(); }
     });
-    losuj();
+    GEN_KLUCZE.forEach(losujPole);
+    genRysuj();
   }
 
   // ---------- Gry z bliska ----------

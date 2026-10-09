@@ -1,5 +1,5 @@
 // Gry z bliska: tekst w warstwach (rdzeń, potem coraz głębiej).
-// Źródło tekstu: 10_Gry_z_perspektyw/<gra>/2_dla_studentow.md. Najpierw zmieniaj tam, potem tutaj.
+// Tekst gry jest redagowany osobno; tu trafia wersja końcowa (po redakcji).
 // id musi być taki sam jak pole zBliska ćwiczenia w dane/cwiczenia.js.
 // *tekst* = kursywa. Cudzysłowy tylko « ».
 window.DANE = window.DANE || {};
