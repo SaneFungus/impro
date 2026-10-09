@@ -13,6 +13,15 @@
 
   // ---------- Kolory emocji ----------
   var JASNOSC = [80, 62, 44]; // stopień 0 = łagodny, 1 = podstawowy, 2 = silny
+  // Czarny albo biały napis, zależnie od tego, który ma lepszy kontrast z tłem.
+  function napisNa(h, s) {
+    var S = 0.75, L = JASNOSC[s] / 100, C = (1 - Math.abs(2 * L - 1)) * S, X = C * (1 - Math.abs((h / 60) % 2 - 1)), m = L - C / 2, i = Math.floor(h / 60) % 6;
+    var rgb = [[C, X, 0], [X, C, 0], [0, C, X], [0, X, C], [X, 0, C], [C, 0, X]][i].map(function (v) {
+      v += m; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    var lum = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+    return lum < 0.3 ? "#fff" : "#14161b"; // biel już od średnio ciemnych teł, bo czerń na nich ginie
+  }
   function kolor(h, s) { return "hsl(" + h + " 75% " + JASNOSC[s] + "%)"; }
 
   // ---------- Sylabus ----------
@@ -87,22 +96,24 @@
   function wycinek(r0, r1, a0, a1) {
     var p1 = pt(r1, a0), p2 = pt(r1, a1), p3 = pt(r0, a1), p4 = pt(r0, a0);
     var f = function (p) { return p[0].toFixed(2) + " " + p[1].toFixed(2); };
+    if (!r0) return "M200 200 L" + f(p1) + " A" + r1 + " " + r1 + " 0 0 1 " + f(p2) + " Z";
     return "M" + f(p1) + " A" + r1 + " " + r1 + " 0 0 1 " + f(p2) + " L" + f(p3) + " A" + r0 + " " + r0 + " 0 0 0 " + f(p4) + " Z";
   }
   function renderPlutchik() {
     var P = D.plutchik; if (!P) return;
     var E = P.emocje;
     // pierścienie: [r0, r1] dla stopnia 0 (zewn., łagodny), 1, 2 (wewn., silny)
-    var R = [[138, 186], [84, 138], [30, 84]];
+    var R = [[148, 186], [104, 148], [0, 104]];
     var svg = '<svg class="wheel" viewBox="-64 -8 528 416" role="img" aria-label="Koło emocji Plutchika">';
     E.forEach(function (e, i) {
       var c = -90 + i * 45, a0 = c - 22.5, a1 = c + 22.5;
       [0, 1, 2].forEach(function (s) {
         svg += '<path data-i="' + i + '" data-s="' + s + '" d="' + wycinek(R[s][0], R[s][1], a0, a1) + '" fill="' + kolor(e.odcien, s) + '"><title>' + esc(e.stopnie[s]) + "</title></path>";
       });
-      var pb = pt(111, c), pm = pt(162, c);
-      svg += '<text class="lbl" x="' + pb[0].toFixed(1) + '" y="' + pb[1].toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' + esc(e.stopnie[1]) + "</text>";
-      svg += '<text class="lbl" x="' + pm[0].toFixed(1) + '" y="' + pm[1].toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' + esc(e.stopnie[0]) + "</text>";
+      var pb = pt(126, c), pm = pt(167, c), pi = pt(62 + 12 * Math.abs(Math.sin(c * Math.PI / 180)), c);
+      svg += '<text class="lbl lbl-s" fill="' + napisNa(e.odcien, 2) + '" x="' + pi[0].toFixed(1) + '" y="' + pi[1].toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' + esc(e.stopnie[2]) + "</text>";
+      svg += '<text class="lbl" fill="' + napisNa(e.odcien, 1) + '" x="' + pb[0].toFixed(1) + '" y="' + pb[1].toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' + esc(e.stopnie[1]) + "</text>";
+      svg += '<text class="lbl" fill="' + napisNa(e.odcien, 0) + '" x="' + pm[0].toFixed(1) + '" y="' + pm[1].toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' + esc(e.stopnie[0]) + "</text>";
       var d = c + 22.5, pd = pt(200, d), cos = Math.cos(d * Math.PI / 180);
       var anchor = cos > 0.2 ? "start" : cos < -0.2 ? "end" : "middle";
       svg += '<text class="dyad" x="' + pd[0].toFixed(1) + '" y="' + pd[1].toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="middle">' + esc(P.diady[i]) + "</text>";
