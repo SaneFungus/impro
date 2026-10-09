@@ -68,7 +68,7 @@
           '<p><span class="k">Czego uczy</span>' + esc(c.cel) + "</p>" +
           (c.wariacje ? '<p><span class="k">Wariacje</span>' + esc(c.wariacje) + "</p>" : "") +
           (c.zrodlo ? '<p><span class="k">Źródło</span>' + esc(c.zrodlo) + "</p>" : "") +
-          (c.zBliska ? '<p><a class="more" href="#gra-' + esc(c.zBliska) + '">Przeczytaj o tej grze z bliska ↓</a></p>' : "") +
+          (c.zBliska && $("#gry") ? '<p><a class="more" href="#gra-' + esc(c.zBliska) + '">Przeczytaj o tej grze z bliska ↓</a></p>' : "") +
           "</div></details>";
       }).join("") : '<p class="empty">Brak ćwiczeń dla tych filtrów.</p>';
     }
@@ -213,15 +213,10 @@
     var Pz = D.propozycje;
     if (Pz) $("#p-propozycje").innerHTML = '<p class="intro">' + esc(Pz.wstep) + '</p><div class="cards">' +
       Pz.hasla.map(function (z) { return '<div class="card"><h3>' + esc(z.t) + "</h3><p>" + esc(z.o) + "</p></div>"; }).join("") + "</div>";
-    var V = D.viewpoints;
-    if (V) {
-      var grp = function (tyt, arr) { return '<p class="grp-h">' + tyt + '</p><div class="cards">' + arr.map(function (z) { return '<div class="card"><h3>' + esc(z.t) + "</h3><p>" + esc(z.o) + "</p></div>"; }).join("") + "</div>"; };
-      $("#p-viewpoints").innerHTML = '<p class="intro">' + esc(V.wstep) + "</p>" + grp("Czas", V.czas) + grp("Przestrzeń", V.przestrzen);
-    }
   }
 
   // ---------- Zakładki ----------
-  var TABS = ["plutchik", "laban", "status", "propozycje", "viewpoints"];
+  var TABS = ["plutchik", "status", "propozycje", "laban"];
   function pokazTab(id, przewin) {
     TABS.forEach(function (t) {
       $("#t-" + t).setAttribute("aria-selected", t === id);

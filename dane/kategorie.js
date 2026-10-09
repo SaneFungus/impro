@@ -1,4 +1,4 @@
-// Kategorie: Plutchik, Laban, status (Johnstone), propozycje (Johnstone), Viewpoints.
+// Kategorie: Plutchik, Laban, status (Johnstone), propozycje (Johnstone).
 // Edytuj teksty swobodnie. Unikaj cudzysłowów „ ” wewnątrz stringów — używaj « ».
 window.DANE = window.DANE || {};
 
@@ -78,25 +78,9 @@ DANE.propozycje = {
     { t: "Blokowanie", o: "Odrzucenie albo zignorowanie propozycji. Zatrzymuje scenę, bo nic nie może się zmienić." },
     { t: "Akceptacja", o: "Przyjęcie propozycji jako prawdy w świecie sceny, a potem dołożenie czegoś od siebie." },
     { t: "Bądź oczywisty", o: "Nie szukaj oryginalności. Pierwsza, oczywista odpowiedź jest najbardziej Twoja i najczęściej najlepsza." },
-    { t: "Ponowne włączenie", o: "Powrót do elementu z początku sceny. Daje widzowi poczucie, że historia jest zbudowana, a nie przypadkowa." },
-    { t: "Poszerzanie i postęp", o: "Scena żyje, kiedy coś się zmienia. Rozwijaj to, co już jest, zamiast wymyślać nowe wątki." }
-  ]
-};
-
-DANE.viewpoints = {
-  wstep: "Viewpoints to język opisu czasu i przestrzeni na scenie, rozwinięty przez Mary Overlie oraz Anne Bogart i Tinę Landau. Dziewięć fizycznych punktów widzenia pozwala improwizować grupowo, słuchając całym ciałem.",
-  czas: [
-    { t: "Tempo", o: "Jak szybko lub wolno dzieje się ruch." },
-    { t: "Czas trwania", o: "Jak długo trwa ruch, zanim się zmieni." },
-    { t: "Odpowiedź kinestetyczna", o: "Spontaniczna reakcja ciała na ruch, który dzieje się obok." },
-    { t: "Powtórzenie", o: "Powtarzanie ruchu, własnego albo cudzego." }
-  ],
-  przestrzen: [
-    { t: "Kształt", o: "Zarys ciała w przestrzeni: linie, krzywe, kąty." },
-    { t: "Gest", o: "Ruch, który coś znaczy: codzienny albo ekspresyjny." },
-    { t: "Architektura", o: "Fizyczne otoczenie: ściany, podłoga, światło, przedmioty." },
-    { t: "Relacja przestrzenna", o: "Odległość między ciałami na scenie." },
-    { t: "Topografia", o: "Wzór, który ruch kreśli na podłodze." }
+    { t: "Poszerzanie i postęp", o: "Scena żyje, kiedy coś się zmienia. Rozwijaj to, co już jest, zamiast wymyślać nowe wątki." },
+    { t: "TILT", o: "Moment, w którym scena się przechyla: ktoś robi coś, co zmienia układ sił albo zasady świata. Od tej chwili nic nie jest już takie samo i trzeba na to odpowiedzieć." },
+    { t: "REINKORPORACJA", o: "Świadome wracanie do wcześniejszych elementów improwizacji (postaci, słowa, przedmiotu, motywu), często w nowym miejscu i znaczeniu. Domyka historię i daje widzowi radość rozpoznania." }
   ]
 };
 
