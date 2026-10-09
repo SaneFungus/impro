@@ -240,7 +240,7 @@
   }
 
   // ---------- Generator ----------
-  var gen = { off: {}, v: {} };
+  var gen = { off: { laban: true, status: true, miejsce: true, relacja: true }, v: {} };
   var GEN_KLUCZE = ["emocja", "laban", "status", "miejsce", "relacja"];
   function losujPole(k) {
     var L = D.laban, G = D.generator;
@@ -295,7 +295,7 @@
   function initGen() {
     var NAZWY = { emocja: "Emocja", laban: "Ruch (Laban)", status: "Status", miejsce: "Miejsce", relacja: "Relacja" };
     $("#gen").innerHTML = '<fieldset class="gen-pick"><legend>Co losujemy?</legend>' + GEN_KLUCZE.map(function (k) {
-      return '<label class="chk"><input type="checkbox" class="inc-cb" data-k="' + k + '" checked><span>' + NAZWY[k] + "</span></label>";
+      return '<label class="chk"><input type="checkbox" class="inc-cb" data-k="' + k + '"' + (gen.off[k] ? "" : " checked") + '><span>' + NAZWY[k] + "</span></label>";
     }).join("") + '</fieldset><div class="gen-grid" id="gen-grid"></div><div class="gen-actions">' +
       '<button class="btn primary" id="gen-los">Losuj</button><button class="btn" id="gen-kop">Kopiuj opis</button>' +
       '<span class="gen-note" id="gen-msg" aria-live="polite"></span></div><p class="gen-note" id="gen-txt"></p>';
