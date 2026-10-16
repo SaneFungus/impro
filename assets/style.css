@@ -216,6 +216,10 @@ p { margin: 0; }
 
 /* Status */
 .st { display: grid; gap: 20px; }
+.guide { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; max-width: 74ch; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--tape); border-radius: var(--r); padding: 16px 18px; }
+.guide p { flex: 1 1 260px; }
+.guide b { font-family: var(--f-display); }
+.guide .btn { text-decoration: none; white-space: nowrap; }
 .seesaw { width: 100%; max-width: 560px; height: auto; display: block; margin: 0 auto; }
 .seesaw .beam { transition: transform .25s ease; transform-origin: 280px 150px; }
 @media (prefers-reduced-motion: reduce) { .seesaw .beam { transition: none; } }

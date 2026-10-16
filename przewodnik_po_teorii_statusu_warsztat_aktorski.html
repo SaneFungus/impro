@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teoria statusu Keitha Johnstone'a · Pracownia Improwizacji</title>
+<meta name="description" content="Przewodnik po teorii statusu Keitha Johnstone'a: huśtawka statusu, laboratorium ciała, leksykon zachowań i ćwiczenia na scenę.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=5">
+<style>
+/* Tylko dla tej strony. Wspólne kolory, czcionki i karty są w assets/style.css. */
+:root { --hi: #8a5a00; --lo: #2a3ccf; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --hi: #e6b622; --lo: #93a1ff; } }
+:root[data-theme="dark"] { --hi: #e6b622; --lo: #93a1ff; }
+
+.back { font-family: var(--f-display); font-weight: 800; color: var(--fg); text-decoration: none; white-space: nowrap; }
+.back span { color: var(--muted); font-weight: 500; }
+
+span.hi, .lvl-n.hi, .figure.hi { color: var(--hi); }
+span.lo, .lvl-n.lo, .figure.lo { color: var(--lo); }
+.mark { font: 500 0.72rem var(--f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.mark.hi { color: var(--hi); }
+.mark.lo { color: var(--lo); }
+.badge { display: inline-block; font: 700 0.68rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 7px; border-radius: 4px; white-space: nowrap; background: var(--chip); color: var(--muted); }
+.badge.hi { background: var(--tape); color: var(--tape-ink); }
+.badge.lo { background: var(--lo); color: var(--accent-ink); }
+.note { border-left: 4px solid var(--tape); padding: 4px 0 4px 14px; font-size: 0.95rem; }
+.note.lo { border-left-color: var(--lo); }
+.note.plain { border-left-color: var(--line); color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+.card.hi, .detail.hi { border-top: 4px solid var(--tape); }
+.card.lo, .detail.lo { border-top: 4px solid var(--lo); }
+.card h3 + p { margin-top: 2px; }
+.big-cards { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.big-cards .card { padding: 20px; gap: 10px; }
+
+/* Dwie kolumny: wybór po lewej, wynik po prawej; na telefonie jedna pod drugą */
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+
+/* Przyciski-wybory (archetypy, huśtawka) */
+.pick { display: grid; gap: 10px; }
+.pick.two-up { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.pick button { text-align: left; font: inherit; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; cursor: pointer; display: grid; gap: 4px; }
+.pick button:hover { border-color: var(--fg); }
+.pick button[aria-pressed="true"] { border-color: var(--fg); box-shadow: inset 4px 0 0 var(--tape); }
+.pick .t { font: 700 1rem/1.25 var(--f-display); }
+.pick .d { font-size: 0.92rem; color: var(--muted); }
+
+/* Huśtawka */
+.who { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .who { grid-template-columns: 1fr; } }
+.who .card { border-top: 4px solid var(--line); }
+.who .card.hi { border-top-color: var(--tape); }
+.who .card.lo { border-top-color: var(--lo); }
+.who .nm { font: 700 1rem var(--f-display); }
+.q { font-style: italic; }
+.seesaw .fig circle, .seesaw .fig rect { fill: var(--fg); }
+.seesaw .fig.hi circle, .seesaw .fig.hi rect { fill: var(--tape); }
+.seesaw .fig.lo circle, .seesaw .fig.lo rect { fill: var(--lo); }
+.seesaw .fig text { font: 800 22px var(--f-display); fill: var(--bg); }
+.seesaw .fig.hi text { fill: var(--tape-ink); }
+.seesaw .beam { transition: transform .5s cubic-bezier(.34, 1.4, .64, 1); }
+@media (prefers-reduced-motion: reduce) { .seesaw .beam { transition: none; } }
+
+/* Laboratorium ciała */
+.lvl { display: grid; gap: 4px; }
+.lvl-n { font: 800 clamp(1.9rem, 6vw, 2.6rem)/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.lvl-t { font: 700 1.1rem/1.25 var(--f-display); }
+.lvl-n.mid, .figure.mid { color: var(--muted); }
+.range { width: 100%; accent-color: var(--accent); margin: 0; }
+.ticks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font: 500 0.72rem/1.3 var(--f-mono); color: var(--muted); }
+.ticks span:nth-child(2) { text-align: center; }
+.ticks span:nth-child(3) { text-align: right; }
+#lab-q { width: 100%; }
+#lab-q button { flex: 1 1 0; padding: 8px 6px; }
+@media (max-width: 760px) { .figbox .figure { max-width: 140px; } }
+.lab-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 20px; align-items: start; }
+@media (max-width: 760px) { .lab-grid { grid-template-columns: 1fr; } }
+.figbox { display: grid; gap: 8px; justify-items: center; text-align: center; }
+.figure { width: 100%; max-width: 210px; height: auto; display: block; overflow: visible; }
+.figure .ln { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; transition: all .4s ease; }
+.figure .aura { fill: currentColor; fill-opacity: .1; stroke: currentColor; stroke-opacity: .5; stroke-dasharray: 4 4; transition: all .4s ease; }
+@media (prefers-reduced-motion: reduce) { .figure .ln, .figure .aura { transition: none; } }
+
+/* Leksykon */
+.lex-list { display: grid; gap: 12px; }
+.lex { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 10px; }
+.lex-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+@media (max-width: 600px) { .lex-cols { grid-template-columns: 1fr; } }
+.lex-cols > div { border-left: 3px solid var(--tape); padding-left: 12px; display: grid; gap: 2px; font-size: 0.95rem; }
+.lex-cols > div.lo { border-left-color: var(--lo); }
+
+/* Generator etiud */
+.gen-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 16px; }
+.gcard { background: var(--bg); }
+.gcard.hi { border-top: 4px solid var(--tape); }
+.gcard.lo { border-top: 4px solid var(--lo); }
+.gcard .val { font-size: 1.2rem; }
+.gcard p { font-size: 0.95rem; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="back" href="./">← Impro <span>/ status</span></a>
+    <nav class="nav" aria-label="Części przewodnika">
+      <a href="#istota">1 Istota</a>
+      <a href="#hustawka">2 Huśtawka</a>
+      <a href="#laboratorium">3 Ciało</a>
+      <a href="#leksykon">4 Leksykon</a>
+      <a href="#mity">5 Kwadranty</a>
+      <a href="#cwiczenia">6 Ćwiczenia</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="start" class="hero">
+    <p class="tape">Akademia Teatralna · Przewodnik improwizatora</p>
+    <h1 class="def">Status to nie to, kim jesteś. <em>Status to coś, co robisz.</em></h1>
+    <p class="lead">W latach 60. w londyńskim Royal Court Theatre <strong>Keith Johnstone</strong> zadał sobie pytanie: dlaczego sceny dialogowe studentów są tak sztuczne i nudne? Odpowiedzią okazała się ukryta pod powierzchnią każdego ludzkiego spotkania walka o dominację i uległość. Opanuj własne ciało, głos i spojrzenie, aby budować natychmiastowe, magnetyczne relacje na scenie.</p>
+    <div class="cards" style="width:100%">
+      <div class="card hi">
+        <span class="mark hi">Aksjomat 01</span>
+        <h3>Brak neutralności</h3>
+        <p>Nie istnieje „status neutralny”. Nawet gdy stoisz z boku i milczysz, Twoje ciało nieustannie wysyła sygnały wysokiego lub niskiego statusu.</p>
+      </div>
+      <div class="card lo">
+        <span class="mark lo">Aksjomat 02</span>
+        <h3>Zasada huśtawki</h3>
+        <p>Status jest zawsze relacyjny. Gdy jedna strona idzie w górę, druga automatycznie wędruje w dół. Każde zdanie i gest to transakcja statusowa.</p>
+      </div>
+      <div class="card">
+        <span class="mark">Aksjomat 03</span>
+        <h3>Status ≠ pozycja</h3>
+        <p>Król to pozycja społeczna. Sposób, w jaki wierci się na tronie, to niski status. Największy komizm i dramat rodzą się z rozdźwięku między nimi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CZĘŚĆ 1 -->
+  <section id="istota" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 01 · Fundamenty</p>
+      <h2>Status społeczny (pozycja) a status behawioralny</h2>
+      <p class="sec-lead">Najważniejszym krokiem wyzwalającym aktora na scenie jest zrozumienie różnicy między tym, co postać <strong>ma</strong> (jej formalną rangą), a tym, co postać <strong>robi</strong> swoim ciałem w danej sekundzie. Nie musisz zastanawiać się „jak czuje się potężny władca” — wystarczy, że wykonasz konkretne zadania fizyczne.</p>
+    </div>
+
+    <div class="two">
+      <div class="block">
+        <div class="row"><span class="badge">Pozycja społeczna</span><span class="mark">To, co postać ma</span></div>
+        <h3>Statyczna etykieta</h3>
+        <p>Formalna ranga w hierarchii ustalona przez konwencje, pieniądz, zawód czy tytuł: <em>Król, Prezes, Profesor, Sługa, Stażysta, Żebrak</em>.</p>
+        <p class="note plain"><strong>Pułapka aktorska:</strong> Próba „grania Króla” jako abstrakcyjnej idei prowadzi do patosu, sztuczności i martwej gry.</p>
+      </div>
+      <div class="block detail hi">
+        <div class="row"><span class="badge hi">Status Johnstone'a</span><span class="mark hi">To, co postać robi</span></div>
+        <h3>Dynamiczne działanie</h3>
+        <p>Chwilowa manifestacja dominacji lub uległości wyrażana przez kręgosłup, bezruch głowy, pauzę w głosie, tempo mrugania i przestrzeń.</p>
+        <p class="note"><strong>Wyzwolenie aktora:</strong> Zamiast „być ważnym”, trzymaj głowę nieruchomo podczas mówienia i zajmij więcej przestrzeni.</p>
+      </div>
+    </div>
+
+    <div class="sec-h">
+      <div class="row" style="width:100%">
+        <h3>Matryca archetypów: pozycja vs status</h3>
+        <span class="chip">kontrast = napięcie</span>
+      </div>
+      <p class="sec-lead">Kliknij w wybrany kwadrant, aby zobaczyć, jak wykorzystać go w grze scenicznej.</p>
+    </div>
+    <div class="pick two-up" id="arch-pick">
+      <button type="button" data-i="0"><span class="mark">Wysoka pozycja · <span class="hi">↑ wysoki status</span></span><span class="t">Król-Tyran / Mistrz</span><span class="d">Pozycja = status (zgodność)</span></button>
+      <button type="button" data-i="1"><span class="mark">Niska pozycja · <span class="hi">↑ wysoki status</span></span><span class="t">Mądry sługa / cichy lider</span><span class="d">Pozycja ≠ status (kontrast!)</span></button>
+      <button type="button" data-i="2"><span class="mark">Wysoka pozycja · <span class="lo">↓ niski status</span></span><span class="t">Niekompetentny szef</span><span class="d">Pozycja ≠ status (kontrast!)</span></button>
+      <button type="button" data-i="3"><span class="mark">Niska pozycja · <span class="lo">↓ niski status</span></span><span class="t">Prawdziwy sługa</span><span class="d">Pozycja = status (zgodność)</span></button>
+    </div>
+    <div id="arch-detail" class="detail" aria-live="polite"></div>
+
+    <details class="cw">
+      <summary><span class="chip">kontekst antropologiczny</span><h3>Skąd Johnstone wziął to pojęcie? 10 złotych reguł dominacji Desmonda Morrisa („Ludzkie zoo”)</h3></summary>
+      <div class="cw-body" style="max-width:none">
+        <p>Zoolog Desmond Morris zauważył, że w każdej grupie ssaków stadnych toczy się nieustanna walka o dominację, która wykształciła się ewolucyjnie po to, by <strong>zapobiegać niepotrzebnemu rozlewowi krwi</strong>. Johnstone odkrył, że te same 10 reguł stosuje zarówno pawian, jak i współczesny prezydent czy szef korporacji:</p>
+        <ol class="list">
+          <li>Wyraźnie demonstruj strój, postawę i gesty znamionujące dominację.</li>
+          <li>W chwilach rywalizacji znacząco pogroź podwładnym.</li>
+          <li>W chwilach zagrożeń fizycznych dysponuj siłą (osobiście lub przez przedstawicieli).</li>
+          <li>Gdy sytuacja wymaga mózgu zamiast mięśni – przechytrz podwładnych.</li>
+          <li>Tłum waśnie, które wybuchają między podwładnymi (bądź sędzią).</li>
+          <li>Nagradzaj bezpośrednich podwładnych, pozwalając im czerpać korzyści z hierarchii.</li>
+          <li>Chroń słabszych członków grupy przed nieuzasadnionymi szykanami.</li>
+          <li>Stymuluj aktywność społeczną członków grupy (inicjuj działania).</li>
+          <li>Od czasu do czasu uśmierzaj lęki najniżej usytuowanych podwładnych.</li>
+          <li>Uprzedzaj zagrożenia i ewentualne ataki z zewnątrz.</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- CZĘŚĆ 2 -->
+  <section id="hustawka" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 02 · Dynamika relacji</p>
+      <h2>Zasada huśtawki (Seesaw Principle)</h2>
+      <p class="sec-lead">„Jeśli jeden idzie w górę, drugi idzie w dół”. Status działa jak huśtawka: mówiąc innym o swoich sukcesach, delikatnie ich kopiemy; przyznając się do porażki, sprawiamy im ukrytą ulgę i podnosimy ich status. Przetestuj klasyczne sytuacje i transakcje dialogowe poniżej.</p>
+    </div>
+
+    <div class="split">
+      <div class="pick" id="ss-pick">
+        <p class="grp-h">Wybierz transakcję statusową</p>
+        <button type="button" data-i="0"><span class="t">1. Bufet teatralny: wielki sukces (A ↑ / B ↓)</span><span class="d">Chwalenie się zwycięstwem na castingu automatycznie spycha otoczenie w dół.</span></button>
+        <button type="button" data-i="1"><span class="t">2. Bufet teatralny: zwolnienie z pracy (A ↓ / B ↑)</span><span class="d">Przyznanie się do klęski sprawia, że koledzy natychmiast czują się pewniej i poklepują po ramieniu.</span></button>
+        <button type="button" data-i="2"><span class="t">3. Molier: Sganarelle vs Martine (kontratak)</span><span class="d">„Jestem panem!” kontra „Zrobisz, co zechcę – ty i ten twój tępy Arystoteles!”.</span></button>
+        <button type="button" data-i="3"><span class="t">4. Status wobec przedmiotu: upuszczona chusteczka</span><span class="d">Julia beztrosko rzuca chusteczkę (wysoki), a zakochany Konrad robi z niej relikwię (niski).</span></button>
+      </div>
+
+      <div class="detail" aria-live="polite">
+        <div class="who">
+          <div class="card" id="ss-a"><div class="row"><span class="nm" id="ss-a-nm"></span><span class="badge" id="ss-a-b"></span></div><p class="q" id="ss-a-q"></p></div>
+          <div class="card" id="ss-b"><div class="row"><span class="nm" id="ss-b-nm"></span><span class="badge" id="ss-b-b"></span></div><p class="q" id="ss-b-q"></p></div>
+        </div>
+        <svg class="seesaw" viewBox="0 20 560 200" role="img" aria-label="Huśtawka statusu: kto jest w górze, a kto w dole">
+          <polygon points="280,152 252,206 308,206" style="fill:var(--muted)"></polygon>
+          <line x1="40" y1="207" x2="520" y2="207" style="stroke:var(--line);stroke-width:2"></line>
+          <g class="beam" id="ss-beam">
+            <rect x="60" y="146" width="440" height="9" rx="4" style="fill:var(--line)"></rect>
+            <g class="fig" id="ss-fa"><circle cx="100" cy="86" r="24"></circle><rect x="83" y="114" width="34" height="32" rx="7"></rect><text x="100" y="94" text-anchor="middle">A</text></g>
+            <g class="fig" id="ss-fb"><circle cx="460" cy="86" r="24"></circle><rect x="443" y="114" width="34" height="32" rx="7"></rect><text x="460" y="94" text-anchor="middle">B</text></g>
+          </g>
+        </svg>
+        <p id="ss-desc"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CZĘŚĆ 3 -->
+  <section id="laboratorium" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 03 · Praktyka fizyczna i wokalna</p>
+      <h2>Laboratorium ciała: jak opanować własny status</h2>
+      <p class="sec-lead">Zanim wypowiesz pierwsze słowo, widownia już zna Twój status. Użyj poniższego suwaka lub wybierz konkretną część ciała, aby otrzymać <strong>konkretne zadanie psychofizyczne</strong> do wykonania na scenie.</p>
+    </div>
+
+    <div class="detail">
+      <div class="row">
+        <div class="lvl">
+          <span class="mark">Kalibrator intensywności statusu</span>
+          <span class="lvl-n" id="lab-n"></span>
+          <span class="lvl-t" id="lab-t"></span>
+        </div>
+        <span class="badge" id="lab-b"></span>
+      </div>
+      <input class="range" id="lab-r" type="range" min="1" max="10" value="8" aria-label="Poziom statusu od 1 do 10">
+      <div class="ticks"><span>1: Całkowita uległość / panika</span><span>5: Subtelna negocjacja</span><span>10: Absolutny monarcha / bezruch</span></div>
+      <div class="seg" id="lab-q" role="group" aria-label="Szybki wybór poziomu">
+        <button type="button" data-v="1">1 · najniżej</button>
+        <button type="button" data-v="5">5 · balans</button>
+        <button type="button" data-v="10">10 · najwyżej</button>
+      </div>
+
+      <div class="lab-grid">
+        <div class="figbox">
+          <span class="mark">Wektor ciała i przestrzeni</span>
+          <svg class="figure" id="fig" viewBox="0 0 200 260" aria-hidden="true">
+            <circle id="f-aura" class="aura" cx="100" cy="130" r="78"></circle>
+            <circle id="f-head" class="ln" cx="100" cy="48" r="20" stroke-width="4"></circle>
+            <line id="f-eyes" class="ln" x1="92" y1="46" x2="108" y2="46" stroke-width="3"></line>
+            <path id="f-spine" class="ln" d="M 100 68 Q 100 115 100 155" stroke-width="5"></path>
+            <path id="f-arms" class="ln" d="M 55 125 L 75 82 L 125 82 L 145 125" stroke-width="4"></path>
+            <path id="f-legs" class="ln" d="M 72 230 L 100 155 L 128 230" stroke-width="4"></path>
+          </svg>
+          <span class="gen-note" id="f-cap"></span>
+        </div>
+        <div class="cards" id="lab-cards"></div>
+      </div>
+    </div>
+
+    <div class="cards big-cards">
+      <div class="card hi">
+        <span class="mark hi">Sekret warsztatowy #1</span>
+        <h3>Nieruchoma głowa podczas mówienia</h3>
+        <p>Johnstone zauważył, że oficerowie i policjanci są szkoleni, by <strong>nie poruszać głową podczas wydawania poleceń</strong>. Nawet jedno skinięcie lub przekrzywienie głowy natychmiast osłabia rozkaz i zaprasza do negocjacji.</p>
+      </div>
+      <div class="card hi">
+        <span class="mark hi">Sekret warsztatowy #2</span>
+        <h3>Intencja dotknięcia twarzy partnera</h3>
+        <p>Aby błyskawicznie wejść w wysoki status bez grania agresji, przyjmij wewnętrzne nastawienie: <em>„jak gdybym chciał za chwilę pogłaskać lub dotknąć twarzy partnera”</em> — ale tego nie rób. Twoje ciało natychmiast zyska magnetyczną pewność.</p>
+      </div>
+      <div class="card lo">
+        <span class="mark lo">Sekret warsztatowy #3</span>
+        <h3>„Ahem...” na początku vs „Yyy” w środku</h3>
+        <p>Długie <strong>„Eee...” na początku zdania</strong> komunikuje wysoki status: <em>„Myślę nad czymś ważnym, waszym obowiązkiem jest poczekać”</em>. Krótkie <strong>„yy” w środku zdania</strong> to niski status: błaganie, by nikt Ci nie przerwał.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CZĘŚĆ 4 -->
+  <section id="leksykon" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 04 · Słownik warsztatowy</p>
+      <h2>Podręczny leksykon zachowań statusowych</h2>
+      <p class="sec-lead">Pełne zestawienie 13 kategorii fizycznych, wokalnych i społecznych. Wyszukaj cechę lub filtruj według obszaru pracy.</p>
+    </div>
+    <div class="filters">
+      <input class="search" id="lex-s" type="search" placeholder="Szukaj (np. oddech, stopy, wzrok)…" aria-label="Szukaj w leksykonie">
+    </div>
+    <div class="filters" id="lex-f" role="group" aria-label="Obszar pracy"></div>
+    <div class="lex-list" id="lex-list" aria-live="polite"></div>
+  </section>
+
+  <!-- CZĘŚĆ 5 -->
+  <section id="mity" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 05 · Zaawansowane niuanse</p>
+      <h2>Rozbijanie mitów: model 4 kwadrantów (status × afekt)</h2>
+      <p class="sec-lead">Najczęstszym błędem początkujących studentów jest utożsamianie wysokiego statusu z byciem „wrednym tyranem”, a niskiego z byciem „miłą ofiarą”. Wprowadzenie drugiej osi — <strong>afektu (przyjemny vs nieprzyjemny)</strong> — otwiera cztery pełnowymiarowe barwy aktorskie.</p>
+    </div>
+
+    <div class="cards big-cards">
+      <div class="card hi">
+        <div class="row" style="justify-content:flex-start"><span class="badge hi">↑ Wysoki status</span><span class="badge">+ przyjemny afekt</span></div>
+        <h3>Charyzmatyczny gospodarz / Dobry król</h3>
+        <p>Postać tak głęboko pewna swojej pozycji, że może pozwolić sobie na ciepło, hojność i podnoszenie statusu innych — wiedząc, że nic nie zagraża jej dominacji.</p>
+        <p class="note plain"><strong>Jak grać:</strong> Otwarta sylwetka, spokojny uśmiech, długi ciepły kontakt wzrokowy, dawanie przestrzeni innym jako gospodarz.</p>
+      </div>
+      <div class="card hi">
+        <div class="row" style="justify-content:flex-start"><span class="badge hi">↑ Wysoki status</span><span class="badge">− nieprzyjemny afekt</span></div>
+        <h3>Zimny tyran / Defensywny twardziel</h3>
+        <p>Dominacja wymuszana strachem, chłodem lub oceną. Postać kontroluje przestrzeń i czas, a każde zakłócenie jej porządku traktuje jako obrazę.</p>
+        <p class="note plain"><strong>Jak grać:</strong> Kamienna twarz, lodowate pauzy przed odpowiedzią, odmowa spojrzenia na partnera („nie jesteś wart uwagi”).</p>
+      </div>
+      <div class="card lo">
+        <div class="row" style="justify-content:flex-start"><span class="badge lo">↓ Niski status</span><span class="badge">+ przyjemny afekt</span></div>
+        <h3>Oddany fan / Gorliwy pomocnik</h3>
+        <p>Osoba „szczęśliwa, że w ogóle tu jest”. Z autentycznym entuzjazmem obniża własny status, by wywyższyć partnera, usłużyć mu i zyskać jego aprobatę.</p>
+        <p class="note plain"><strong>Jak grać:</strong> Szybkie potakiwanie, wpatrywanie się z podziwem, gotowość do natychmiastowego spełnienia każdej prośby.</p>
+      </div>
+      <div class="card lo">
+        <div class="row" style="justify-content:flex-start"><span class="badge lo">↓ Niski status</span><span class="badge">− nieprzyjemny afekt</span></div>
+        <h3>Pasywno-agresywny męczennik</h3>
+        <p>Używa swojej słabości, krzywdy i „potrzeby” jako broni. Obniża swój status w sposób, który obwinia i obciąża emocjonalnie wszystkich dookoła.</p>
+        <p class="note plain"><strong>Jak grać:</strong> Westchnienia, skulona sylwetka, unikanie wzroku połączone z głośnym cierpieniem („Nie przejmujcie się mną, postoję w ciemności...”).</p>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="block">
+        <span class="mark lo">Mit 2: „Niski status oznacza bierność”</span>
+        <h3>Niski status jest skrajnie aktywny!</h3>
+        <p>Wielu studentów grając niski status wycofuje się ze sceny i czeka na ruch partnera. To błąd! Niski status jest napędzany przez palącą <strong>potrzebę (need)</strong>: przebaczenia, akceptacji, uwagi czy przetrwania.</p>
+        <p class="note lo">Nawet czasownik „kulić się” to aktywne działanie, by uniknąć ciosu. Klasycznym ćwiczeniem komediowym jest „walka o niski status”: „Jestem beznadziejny!” — „Nie, to ja jestem gorszym robakiem!”.</p>
+      </div>
+      <div class="block">
+        <span class="mark hi">Mit 3: „Wśród przyjaciół nie ma statusu”</span>
+        <h3>Przyjaźń to umowa na grę huśtawką</h3>
+        <p>Johnstone odpowiada radykalnie: znajomi stają się przyjaciółmi <strong>właśnie wtedy, gdy zgadzają się grać ze sobą w gry statusowe</strong>.</p>
+        <p class="note">W relacji formalnej walczymy o stałe przechylenie huśtawki. W przyjaźni huśtawka jest w ciągłym, radosnym ruchu — przyjaciele na zmianę podnoszą i obniżają swój status, dbając, by nikt nie został na dole na stałe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CZĘŚĆ 6 -->
+  <section id="cwiczenia" class="sec">
+    <div class="sec-h">
+      <p class="tape">Część 06 · Trening na scenie</p>
+      <h2>Klasyczne gry Johnstone'a i generator zadań</h2>
+      <p class="sec-lead">Status jest narzędziem, które <strong>odblokowuje spontaniczność</strong>. Kiedy dajesz swojemu wewnętrznemu „cenzorowi” proste zadanie fizyczne (np. „nie ruszaj głową”), Twoja podświadomość staje się wolna i może autentycznie reagować na partnera („Tak, i...”).</p>
+    </div>
+
+    <div class="cards big-cards">
+      <div class="card">
+        <div class="row"><span class="mark">Ćwiczenie 01 · Dramaturgia</span><span class="chip">2 aktorów</span></div>
+        <h3>Zmiana statusu (Status Swap)</h3>
+        <p>Dwóch graczy zaczyna scenę z wyraźnym kontrastem (jeden Wysoki, drugi Niski). Celem sceny jest <strong>organiczne odwrócenie ról</strong> przed końcem.</p>
+        <p class="note plain"><strong>Przykład:</strong> Pewny siebie Prezes (Wysoki) poucza Stażystę (Niski). Stażysta niewinnie pyta o kwantowe algorytmy, o których Prezes nie ma pojęcia. Punkt zwrotny!</p>
+      </div>
+      <div class="card">
+        <div class="row"><span class="mark">Ćwiczenie 02 · Połączenie i ryzyko</span><span class="chip">grupa</span></div>
+        <h3>Pan i Sługa: „Strojenie min” (Making Faces)</h3>
+        <p>Surowy Mistrz wydaje polecenia Sługom. Gdy Mistrz nie patrzy, Słudzy muszą stroić miny i wykonywać wyzywające gesty za jego plecami, podejmując <strong>maksymalne ryzyko</strong>. Każdy przyłapany zostaje natychmiast wyrzucony.</p>
+        <p class="note plain"><strong>Wskazówka Patti Stiles:</strong> Nie udawaj strachu ani surowości. Bądź w 100% czujny! Status narodzi się sam z hiper-uwagi.</p>
+      </div>
+      <div class="card">
+        <div class="row"><span class="mark">Ćwiczenie 03 · Kalibracja</span><span class="chip">4–6 aktorów</span></div>
+        <h3>Łańcuch statusowy i Zgadnij status</h3>
+        <p>Aktorzy losują w tajemnicy karty od 1 do 10 i odgrywają codzienną sytuację (np. w windzie lub poczekalni). Zadaniem widowni jest precyzyjne ustawienie ich w kolejności od najwyższego do najniższego statusu.</p>
+        <p class="note plain"><strong>Cel:</strong> Pokazuje aktorowi, czy jego sygnały niewerbalne są czytelne dla widzów.</p>
+      </div>
+      <div class="card">
+        <div class="row"><span class="mark">Ćwiczenie 04 · Trójwymiarowość</span><span class="chip">solo / duet</span></div>
+        <h3>Status wobec obiektów i przestrzeni</h3>
+        <p>Wejdź do pokoju grając wysoki status wobec ludzi, ale skrajnie niski status wobec mebli lub przestrzeni (np. twardziel w ciemnej piwnicy lub król bojący się własnego tronu).</p>
+        <p class="note plain"><strong>Cel:</strong> Natychmiast tworzy wielowymiarową, fascynującą postać bez ani jednego słowa ekspozycji.</p>
+      </div>
+    </div>
+
+    <div class="gen-box">
+      <div class="row">
+        <div class="sec-h" style="gap:8px">
+          <span class="mark">Generator etiud na zajęcia</span>
+          <h3 style="font-size:1.4rem">Wylosuj zadanie statusowe dla dwójki aktorów</h3>
+        </div>
+        <button type="button" class="btn primary" id="drill-btn">Losuj nową etiudę</button>
+      </div>
+      <div class="gen-grid" aria-live="polite">
+        <div class="gcard">
+          <span class="lab">Miejsce i sytuacja</span>
+          <span class="val" id="d-loc"></span>
+          <p class="note" id="d-twist"></p>
+        </div>
+        <div class="gcard hi">
+          <span class="lab">Aktor A · zadanie ciała</span>
+          <span class="val" id="d-ar"></span>
+          <p id="d-at"></p>
+        </div>
+        <div class="gcard lo">
+          <span class="lab">Aktor B · zadanie ciała</span>
+          <span class="val" id="d-br"></span>
+          <p id="d-bt"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Na podstawie „Impro: Improvisation and the Theatre” Keitha Johnstone’a oraz „Ludzkiego zoo” Desmonda Morrisa. <a href="./">← Wróć do Pracowni Improwizacji</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  function zaznacz(lista, i) { lista.forEach(function (b, j) { b.setAttribute("aria-pressed", String(j === i)); }); }
+
+  // ---------- Matryca archetypów ----------
+  var ARCH = [
+    {
+      kl: "hi",
+      title: "Archetyp: Król-Tyran / Mistrz (wysoka pozycja + wysoki status)",
+      badge: "Zgodność (pozycja = status)",
+      desc: "Postać posiada formalną władzę (tytuł, stanowisko) i zachowuje się w sposób absolutnie dominujący. Przykłady: Miranda Priestly (\u201EDiabeł ubiera się u Prady\u201D), Darth Vader, surowy reżyser.",
+      tip: "Zadanie dla studenta: Unikaj krzyczenia! Prawdziwa potęga nie musi podnosić głosu — używaj ciszy, powolnych ruchów i niechcianego, protekcjonalnego dotyku (np. strzepnięcie pyłku z ramienia podwładnego)."
+    },
+    {
+      kl: "hi",
+      title: "Archetyp: Mądry sługa / cichy lider (niska pozycja + wysoki status)",
+      badge: "Kontrast dramatyczny (pozycja ≠ status)",
+      desc: "Postać zajmuje niskie miejsce w hierarchii społecznej (kamerdyner, sprzątacz, więzień), ale swoim spokojem, wiedzą i opanowaniem ciała całkowicie dominuje w relacji. Przykłady: Jeeves, Hannibal Lecter w celi.",
+      tip: "Zadanie dla studenta: Mów uprzejmie (\u201EOczywiście, proszę pana\u201D), ale utrzymuj niezachwiany kontakt wzrokowy, wyprostowany kręgosłup i nigdy nie tłumacz się ze swoich działań."
+    },
+    {
+      kl: "lo",
+      title: "Archetyp: Niekompetentny szef / anemiczny król (wysoka pozycja + niski status)",
+      badge: "Kontrast komediowy (pozycja ≠ status)",
+      desc: "Złoto komedii: postać ma formalną władzę, ale desperacko szuka aprobaty podwładnych, boi się własnych decyzji i zdradza napięcie tikami statusowymi. Przykłady: Michael Scott (\u201EThe Office\u201D), przestraszony monarcha na tronie.",
+      tip: "Zadanie dla studenta: Wydawaj polecenia, ale natychmiast dodawaj nerwowy chichot, poprawiaj ubranie i kończ zdania pytającym tonem, szukając ratunku w oczach partnera."
+    },
+    {
+      kl: "lo",
+      title: "Archetyp: Prawdziwy sługa (niska pozycja + niski status)",
+      badge: "Zgodność (pozycja = status)",
+      desc: "Postać nie ma formalnej władzy i w pełni to akceptuje. Jej napędem jest paląca potrzeba przetrwania, zadowolenia pana lub uniknięcia gniewu. Przykłady: Zgredek, wierny giermek.",
+      tip: "Zadanie dla studenta: Pamiętaj, że niski status NIE jest bierny! Bądź hiper-aktywny w swoim podporządkowaniu: zajmuj jak najmniej miejsca, uprzedzaj życzenia partnera, mów szybko."
+    }
+  ];
+  var archBtns = $$("#arch-pick button");
+  function wybierzArch(i) {
+    var a = ARCH[i];
+    zaznacz(archBtns, i);
+    var box = $("#arch-detail");
+    box.className = "detail " + a.kl;
+    box.innerHTML = '<div class="row"><h3>' + a.title + '</h3><span class="chip">' + a.badge + "</span></div>" +
+      "<p>" + a.desc + '</p><p class="note' + (a.kl === "lo" ? " lo" : "") + '"><strong>' + a.tip + "</strong></p>";
+  }
+  archBtns.forEach(function (b) { b.addEventListener("click", function () { wybierzArch(+b.dataset.i); }); });
+
+  // ---------- Huśtawka ----------
+  // Dodatni kąt: lewy koniec (A) w górze, prawy (B) w dole. Ujemny: odwrotnie.
+  var HUST = [
+    {
+      aHigh: true, angle: 10,
+      aName: "Aktor w bufecie", aBadge: "Wysoki ↑", bName: "Koledzy", bBadge: "Niski ↓",
+      quoteA: "\u201EWygrałem główną rolę w wysokobudżetowym filmie!\u201D",
+      quoteB: "\u201EO... gratulacje...\u201D (uciekają wzrokiem, czują ukłucie zazdrości)",
+      desc: "<strong>Bufet teatralny (wersja 1):</strong> Aktor wchodzi i głośno oznajmia wielki sukces (podwyższa własny status — wędruje na górę huśtawki). Koledzy automatycznie robią się podenerwowani — będą gratulować, ale ich status został obniżony."
+    },
+    {
+      aHigh: false, angle: -10,
+      aName: "Zwolniony aktor", aBadge: "Niski ↓", bName: "Koledzy", bBadge: "Wysoki ↑",
+      quoteA: "\u201EWłaśnie mnie zwolnili z teatru...\u201D",
+      quoteB: "\u201ENie martw się, będzie dobrze!\u201D (z ulgą poklepują go po ramieniu)",
+      desc: "<strong>Bufet teatralny (wersja 2):</strong> Aktor ze zmartwioną miną przyznaje się do porażki (obniża swój status — zjeżdża w dół). Koledzy natychmiast czują ulgę i rozluźnienie, poklepują go po ramieniu — ich status poszybował w górę."
+    },
+    {
+      aHigh: false, angle: -11,
+      aName: "Sganarelle", aBadge: "Obniżony ↓", bName: "Martine", bBadge: "Dominuje ↑",
+      quoteA: "\u201EJaką rację miał Arystoteles, mówiąc, że żony to sam diabeł!\u201D",
+      quoteB: "\u201EPosłuchajcie tylko mędrca — on i ten jego tępy Arystoteles!\u201D",
+      desc: "<strong>Walka statusowa w dialogu (Molier):</strong> Sganarelle próbuje podnieść swój status autorytetem filozofa. Martine jednym celnym zdaniem poniża zarówno męża, jak i samego Arystotelesa, wynosząc swój status na samą górę."
+    },
+    {
+      aHigh: true, angle: 11,
+      aName: "Julia", aBadge: "Wysoki ↑", bName: "Zakochany Konrad", bBadge: "Niski ↓",
+      quoteA: "Beztrosko upuszcza i porzuca chusteczkę do nosa.",
+      quoteB: "Z nabożną czcią podnosi chusteczkę jak relikwię.",
+      desc: "<strong>Status poprzez przedmiot:</strong> Bez wypowiadania ani jednego słowa o uczuciach, kontrast w traktowaniu zwykłej chusteczki natychmiast pokazuje widowni, kto znajduje się na górze, a kto na dole huśtawki."
+    }
+  ];
+  var ssBtns = $$("#ss-pick button");
+  function wybierzHust(i) {
+    var s = HUST[i], ka = s.aHigh ? "hi" : "lo", kb = s.aHigh ? "lo" : "hi";
+    zaznacz(ssBtns, i);
+    $("#ss-beam").style.transform = "rotate(" + s.angle + "deg)";
+    $("#ss-a").className = "card " + ka; $("#ss-b").className = "card " + kb;
+    $("#ss-fa").setAttribute("class", "fig " + ka); $("#ss-fb").setAttribute("class", "fig " + kb);
+    $("#ss-a-nm").textContent = s.aName; $("#ss-b-nm").textContent = s.bName;
+    $("#ss-a-b").textContent = s.aBadge; $("#ss-b-b").textContent = s.bBadge;
+    $("#ss-a-b").className = "badge " + ka; $("#ss-b-b").className = "badge " + kb;
+    $("#ss-a-q").textContent = s.quoteA; $("#ss-b-q").textContent = s.quoteB;
+    $("#ss-desc").innerHTML = s.desc;
+  }
+  ssBtns.forEach(function (b) { b.addEventListener("click", function () { wybierzHust(+b.dataset.i); }); });
+
+  // ---------- Laboratorium ciała ----------
+  var CZESCI = [
+    ["eyes", "01. Oczy i spojrzenie", "Kluczowy wskaźnik"],
+    ["head", "02. Głowa i szyja", "Trick policjantów"],
+    ["torso", "03. Kręgosłup i torso", "Od gardła do pasa"],
+    ["hands", "04. Dłonie i dotyk (tiki)", "Samokontrola"],
+    ["voice", "05. Głos, oddech i pauza", "\u201EAhem\u201D vs \u201EYyy\u201D"],
+    ["space", "06. Stopy i przestrzeń", "Terytorium"]
+  ];
+  var LAB = {
+    lowExtreme: {
+      title: "Skrajne podporządkowanie i panika", badge: "Skrajnie niski status",
+      eyes: "Całkowite unikanie wzroku lub ukradkowe spojrzenia ułamkowe (< 0.5 sekundy). Częste, nerwowe mruganie.",
+      head: "Głowa wciśnięta w ramiona, ciągłe nerwowe potakiwanie lub przekrzywianie głowy.",
+      torso: "Środek ciała (od szyi do pasa) skurczony i zapadnięty. Kręgosłup wygięty, postawa obronna.",
+      hands: "Ciągłe tiki statusowe: nerwowe dotykanie twarzy, zakrywanie ust, skubanie rękawa, ręce przyciśnięte do tułowia.",
+      voice: "Płytki, gorączkowy oddech. Mowa szybka, urywana, wysoki piskliwy ton, krótkie \u201Eyyy\u201D w środku zdań, nerwowy chichot.",
+      space: "Zajmowanie minimalnej przestrzeni. Nogi złączone, czubki stóp skierowane do wewnątrz, cofanie się.",
+      caption: "Skulona sylwetka · Tiki dłoni · Stopy do wewnątrz"
+    },
+    lowMid: {
+      title: "Niepewność i szukanie aprobaty", badge: "Niski status",
+      eyes: "Chęć patrzenia na partnera, ale odwracanie wzroku jako pierwszy po 1 sekundzie kontaktu.",
+      head: "Głowa ruchliwa podczas mówienia, szukająca potwierdzenia u rozmówcy.",
+      torso: "Lekko zgarbiona sylwetka, asymetryczne ustawienie barków, zmniejszanie tułowia.",
+      hands: "Okazjonalne poprawianie włosów lub okularów. Unikanie dotykania innych.",
+      voice: "Szybkie odpowiedzi z obawy przed przerwaniem. Długie, zawikłane zdania bez kropek.",
+      space: "Trzymanie bezpiecznego dystansu, ustępowanie drogi, wąskie ustawienie stóp.",
+      caption: "Asymetria · Uciekający wzrok · Pośpiech w głosie"
+    },
+    neutralMid: {
+      title: "Płynna negocjacja (elastyczny balans)", badge: "Strefa przejścia",
+      eyes: "Swobodny kontakt wzrokowy dostosowany do sytuacji, gotowość zarówno do przejęcia, jak i oddania inicjatywy.",
+      head: "Spokojne, naturalne ruchy głowy, uważne obserwowanie partnera.",
+      torso: "Wyprostowana, ale nienapięta sylwetka.",
+      hands: "Gestykulacja wspierająca rozmowę, brak nerwowych tików wokół twarzy.",
+      voice: "Regularny oddech, naturalna wysokość głosu, naprzemienne podnoszenie i obniżanie huśtawki (jak u przyjaciół).",
+      space: "Poszanowanie granicy terytorialnej partnera bez kurczenia własnej obecności.",
+      caption: "Czujna równowaga · Gotowość do transakcji"
+    },
+    highMid: {
+      title: "Spokojna dominacja i kontrola przestrzeni", badge: "Wysoki status",
+      eyes: "Bezpośrednie, stabilne spojrzenie bez mrugania. Nie odwraca wzroku jako pierwszy, gdy jest obserwowany.",
+      head: "Głowa utrzymywana nieruchomo podczas wypowiadania zdań.",
+      torso: "Środek ciała (od szyi do pasa) wyeksponowany, wyższy i większy. Kręgosłup prosty, ramiona rozluźnione.",
+      hands: "Rzadka, celowa i płynna gestykulacja. Brak dotykania własnej twarzy.",
+      voice: "Niski, zrelaksowany głos. Krótkie, pełne zdania. Komfortowe trwanie w ciszy i pauzie.",
+      space: "Stopy rozstawione nieco szerzej niż zwykle, lekko na zewnątrz. Swobodne wchodzenie w przestrzeń innych.",
+      caption: "Otwarta klatka · Głowa nieruchoma · Szeroka baza"
+    },
+    highExtreme: {
+      title: "Absolutny monarcha / hipnotyczna władza", badge: "Skrajnie wysoki status",
+      eyes: "Hipnotyczne spojrzenie z góry LUB całkowita odmowa kontaktu wzrokowego (partner jest niewart uwagi).",
+      head: "Absolutny bezruch głowy i szyi. Odwraca się powoli całym tułowiem tylko wtedy, gdy sam zdecyduje.",
+      torso: "Monumentalna, otwarta, symetryczna postawa. Wewnętrzna intencja, jakby mógł dotknąć twarzy partnera.",
+      hands: "Każdy ruch jest wolny i demonstracyjny. Pozwala sobie na niechciany dotyk wobec innych (poklepanie po policzku, zdjęcie pyłku).",
+      voice: "Długie \u201EAhem...\u201D przed zdaniem (każe wszystkim czekać). Mówi wolno, pyta kiedy chce (\u201EKto pyta, ten przewodzi\u201D).",
+      space: "Całkowite zawłaszczenie sceny i przedmiotów wokół siebie. Minimalne reagowanie na wejście innych osób.",
+      caption: "Monumentalny bezruch · Zawłaszczenie przestrzeni"
+    }
+  };
+  $("#lab-cards").innerHTML = CZESCI.map(function (c) {
+    return '<div class="card"><div class="row"><span class="mark">' + c[1] + '</span><span class="gen-note">' + c[2] + '</span></div><p id="lab-' + c[0] + '"></p></div>';
+  }).join("");
+  var labQ = $$("#lab-q button");
+
+  function ustawLab(val) {
+    var v = parseInt(val, 10), st;
+    if (v <= 2) st = LAB.lowExtreme;
+    else if (v <= 4) st = LAB.lowMid;
+    else if (v <= 6) st = LAB.neutralMid;
+    else if (v <= 8) st = LAB.highMid;
+    else st = LAB.highExtreme;
+    var kl = v >= 6 ? "hi" : (v <= 4 ? "lo" : "mid");
+
+    $("#lab-r").value = v;
+    $("#lab-n").textContent = "Poziom " + v + "/10";
+    $("#lab-n").className = "lvl-n " + kl;
+    $("#lab-t").textContent = st.title;
+    $("#lab-b").textContent = st.badge;
+    $("#lab-b").className = "badge " + (kl === "mid" ? "" : kl);
+    CZESCI.forEach(function (c) { $("#lab-" + c[0]).textContent = st[c[0]]; });
+    $("#f-cap").textContent = st.caption;
+    labQ.forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.v === v)); });
+
+    // Sylwetka: 0 = skrajnie niski, 1 = skrajnie wysoki
+    var t = (v - 1) / 9;
+    var headY = Math.round(64 - t * 20);
+    var spineX = Math.round(84 + t * 16);
+    var armSpan = Math.round(80 + t * 70);
+    var legSpan = Math.round(14 + t * 48);
+    var handY = v <= 3 ? 72 : 125; // przy bardzo niskim statusie ręce przy twarzy (tiki)
+    $("#fig").setAttribute("class", "figure " + kl);
+    $("#f-aura").setAttribute("r", Math.round(38 + t * 50));
+    $("#f-head").setAttribute("cy", headY);
+    var eyes = $("#f-eyes");
+    eyes.setAttribute("y1", headY - 2);
+    eyes.setAttribute("y2", v <= 4 ? headY + 4 : headY - 2);
+    $("#f-spine").setAttribute("d", "M 100 " + (headY + 20) + " Q " + spineX + " 115 100 155");
+    $("#f-arms").setAttribute("d", "M " + (100 - Math.round(armSpan / 2)) + " " + handY + " L 80 86 L 120 86 L " + (100 + Math.round(armSpan / 2)) + " " + handY);
+    $("#f-legs").setAttribute("d", "M " + (100 - legSpan) + " 230 L 100 155 L " + (100 + legSpan) + " 230");
+  }
+  $("#lab-r").addEventListener("input", function () { ustawLab(this.value); });
+  labQ.forEach(function (b) { b.addEventListener("click", function () { ustawLab(b.dataset.v); }); });
+
+  // ---------- Leksykon ----------
+  var LEKS = [
+    { cat: "cialo", name: "Ruch", high: "Celowy, spokojny, giętki, zdecydowany, stanowczy, zręczny; głowa porusza się nieznacznie.", low: "Niestabilny, niespokojny, szarpany, sztywny, napięty, niezgrabny; ciągłe wiercenie się." },
+    { cat: "glos", name: "Mowa", high: "\u201ENormalna\u201D wysokość głosu; krótkie pełne zdania; komfortowe pauzy; długie \u201Eahem\u201D przed zdaniami.", low: "Cichy, mamroczący, przerywany, szybki; długie, urywane zdania; krótkie \u201Eyy / um\u201D w środku zdań." },
+    { cat: "glos", name: "Wysokość głosu", high: "Raczej niski, zrelaksowany, pełny rezonans.", low: "Raczej wysoki, piskliwy, wciśnięty, napięte gardło." },
+    { cat: "cialo", name: "Postawa", high: "Wyprostowana, swobodna, nieskrępowana, rozluźniona; stopy lekko na zewnątrz; środek ciała wydaje się większy.", low: "Zgarbiona lub sztywno napięta; stopy lekko do wewnątrz; środek ciała wydaje się mniejszy." },
+    { cat: "glos", name: "Oddech", high: "Spokojny i regularny (wstrzymuje oddech tylko celowo, by wzmocnić groźny gest).", low: "Gorączkowy, płytki, szybki, dyszenie; zatrzymywanie oddechu ze strachu lub przerażenia." },
+    { cat: "cialo", name: "Przestrzeń", high: "Zajmowanie dużej przestrzeni, zachowania terytorialne, wchodzenie w przestrzeń innych. (Wobec obiektów: Julia beztrosko wyrzuca chusteczkę).", low: "Zajmowanie jak najmniejszej przestrzeni, ręce blisko ciała, nogi blisko siebie. (Wobec obiektów: Konrad z szacunkiem podnosi chusteczkę)." },
+    { cat: "cialo", name: "Dotykanie innych", high: "Każdy rodzaj niechcianego dotyku: położenie ręki na ramieniu, wyciągnięcie kłaczków ze swetra, głaskanie po policzku.", low: "Unika dotykania innych. Pozwala sobie na przyjmowanie niechcianego dotyku bez protestu." },
+    { cat: "cialo", name: "Dotykanie siebie", high: "Nie dotyka własnego ciała (lub robi to demonstracyjnie, wolno i celowo).", low: "Gesty zawstydzone (tiki statusowe): głaskanie się po włosach, dotykanie twarzy, zakrywanie ust (nerwowe i mimowolne)." },
+    { cat: "cialo", name: "Kontakt wzrokowy", high: "Bezpośrednie spojrzenie bez mrugania; dominujące patrzenie z góry, hipnotyczne spojrzenie (lub celowe ignorowanie).", low: "Szybkie odwracanie wzroku, niestabilne spojrzenie. Ale także: naiwne, bezkrytyczne wpatrywanie się z podziwem." },
+    { cat: "relacja", name: "Zachowania społeczne", high: "Zawsze znajduje właściwe słowa i gesty; wie, jak się zachować i kiedy milczeć. W razie potrzeby z przekonaniem lekceważy normy.", low: "Nie nadąża, mówi mimochodem, bełkocze. Narusza normy społeczne ze strachu i niepewności (lub nadrabia obcesowością)." },
+    { cat: "relacja", name: "Problemy", high: "Nie ma problemów. Potrafi poradzić sobie w każdej sytuacji, rozpoznaje priorytety i zawsze ma asa w rękawie.", low: "Zawsze i wszędzie widzi problemy. Zawodzi w najdrobniejszych codziennych sprawach." },
+    { cat: "relacja", name: "Spokój", high: "Nie pozwala, by cokolwiek go zdenerwowało, nawet w sytuacjach beznadziejnych. Krzyczy tylko dla demonstracji wyższości.", low: "Łatwo się niepokoi, szybko wpada w panikę, łatwo daje się sprowokować, błaga o litość." },
+    { cat: "relacja", name: "Pytania", high: "\u201EKto pyta, ten przewodzi\u201D. Pyta, kiedy i jak mu pasuje; przesłuchuje, bada ukierunkowanymi pytaniami.", low: "Pyta z braku pewności siebie, by zadowolić osoby wyżej i uniknąć samodzielnej decyzji; boi się zadać ważne pytanie." }
+  ];
+  var KAT = [["all", "Wszystkie"], ["cialo", "Ciało i przestrzeń"], ["glos", "Głos i oddech"], ["relacja", "Psychologia i relacja"]];
+  var lexKat = "all";
+  $("#lex-f").innerHTML = KAT.map(function (k) {
+    var n = k[0] === "all" ? LEKS.length : LEKS.filter(function (x) { return x.cat === k[0]; }).length;
+    return '<button type="button" class="tagbtn" data-cat="' + k[0] + '">' + k[1] + '<span class="n">' + n + "</span></button>";
+  }).join("");
+  var lexBtns = $$("#lex-f button");
+  function rysujLeks() {
+    var q = $("#lex-s").value.trim().toLowerCase();
+    lexBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.cat === lexKat)); });
+    var lista = LEKS.filter(function (x) {
+      return (lexKat === "all" || x.cat === lexKat) &&
+        (x.name + " " + x.high + " " + x.low).toLowerCase().indexOf(q) !== -1;
+    });
+    $("#lex-list").innerHTML = lista.length ? lista.map(function (x) {
+      return '<div class="lex"><h3>' + x.name + '</h3><div class="lex-cols">' +
+        '<div><span class="mark hi">↑ Wysoki status</span><span>' + x.high + "</span></div>" +
+        '<div class="lo"><span class="mark lo">↓ Niski status</span><span>' + x.low + "</span></div></div></div>";
+    }).join("") : '<p class="empty">Nic nie pasuje. Spróbuj innego słowa albo wybierz \u201EWszystkie\u201D.</p>';
+  }
+  $("#lex-s").addEventListener("input", rysujLeks);
+  lexBtns.forEach(function (b) { b.addEventListener("click", function () { lexKat = b.dataset.cat; rysujLeks(); }); });
+
+  // ---------- Generator etiud ----------
+  var ETIUDY = [
+    {
+      location: "Przesłuchanie na komisariacie",
+      twist: "Cel: Dokonajcie \u201EStatus Swap\u201D (odwrócenia statusów) w połowie sceny!",
+      aRole: "Podejrzany (niska pozycja, wysoki status)",
+      aTask: "Trzymaj głowę całkowicie nieruchomo podczas mówienia. Rozpieraj się na krześle i zaczynaj wypowiedzi od długiego, spokojnego \u201EAhem...\u201D.",
+      bRole: "Komisarz (wysoka pozycja, niski status)",
+      bTask: "Stopy skierowane lekko do wewnątrz, często dotykaj twarzy i poprawiaj dokumenty. Zrywaj kontakt wzrokowy jako pierwszy po 1 sekundzie."
+    },
+    {
+      location: "Ekskluzywna restauracja przed otwarciem",
+      twist: "Cel: Walczcie o niski status — kto okaże się bardziej niegodny przebywania w tym miejscu!",
+      aRole: "Szef kuchni (niski-nieprzyjemny: męczennik)",
+      aTask: "Wzdychaj ciężko, kurcz środek tułowia i używaj swojej porażki jako broni emocjonalnej przeciwko kelnerowi.",
+      bRole: "Nowy kelner (niski-przyjemny: gorliwy sługa)",
+      bTask: "Mów bardzo szybko, wtrącaj krótkie \u201Eyy\u201D w środku zdań, przepraszaj za rzeczy, których nie zrobiłeś i kłaniaj się całym ciałem."
+    },
+    {
+      location: "Gabinet rektora Akademii Teatralnej",
+      twist: "Cel: Zagrajcie kontrast wobec przestrzeni i obiektów w gabinecie.",
+      aRole: "Student I roku (wysoki status + przyjemny afekt)",
+      aTask: "Wejdź jak charyzmatyczny gospodarz. Zajmij dużo przestrzeni, miej intencję jakbyś chciał pogłaskać Rektora po twarzy, traktuj jego fotel jak własny.",
+      bRole: "Rektor (wysoki status wobec studenta, niski wobec gabinetu)",
+      bTask: "Utrzymuj groźny wzrok na studencie, ale bój się dotknąć własnego biurka i poruszaj się po pokoju, jakby podłoga miała się zapaść."
+    },
+    {
+      location: "Winda zatrzymana między piętrami",
+      twist: "Cel: Przejście z \u201EWysoki-Przyjemny\u201D do \u201ENiski-Panika\u201D w 90 sekund.",
+      aRole: "Prezes korporacji (zaczyna na poziomie 9/10)",
+      aTask: "Na początku mów krótkimi zdaniami, nie ruszaj głową i ignoruj awarię. Z każdą sekundą pozwalaj, by pojawiały się tiki dłoni i płytki oddech.",
+      bRole: "Konserwator (zaczyna na poziomie 2/10)",
+      bTask: "Zacznij skulony w kącie windy z czubkami butów do środka. W miarę jak Prezes traci głowę, prostuj kręgosłup i przejmuj terytorium."
+    }
+  ];
+  var ostatnia = 0;
+  function pokazEtiude(i) {
+    var d = ETIUDY[i];
+    ostatnia = i;
+    $("#d-loc").textContent = d.location; $("#d-twist").textContent = d.twist;
+    $("#d-ar").textContent = d.aRole; $("#d-at").textContent = d.aTask;
+    $("#d-br").textContent = d.bRole; $("#d-bt").textContent = d.bTask;
+  }
+  $("#drill-btn").addEventListener("click", function () {
+    var n = Math.floor(Math.random() * ETIUDY.length);
+    if (n === ostatnia) n = (n + 1) % ETIUDY.length;
+    pokazEtiude(n);
+  });
+
+  // ---------- Start ----------
+  wybierzArch(0);
+  wybierzHust(0);
+  ustawLab(8);
+  rysujLeks();
+  pokazEtiude(0);
+})();
+</script>
+</body>
+</html>

@@ -197,7 +197,10 @@
       '<polygon points="280,152 252,206 308,206" style="fill:var(--muted)"></polygon>' +
       '<line x1="40" y1="207" x2="520" y2="207" style="stroke:var(--line);stroke-width:2"></line>' +
       '<g class="beam" id="beam"><rect x="60" y="146" width="440" height="9" rx="4" style="fill:var(--tape)"></rect>' + fig(100, "A") + fig(460, "B") + "</g></svg>";
-    var h = '<p class="intro">' + esc(S.wstep) + '</p><div class="st">' + svg +
+    var h = '<p class="intro">' + esc(S.wstep) + '</p>' +
+      '<div class="guide"><p><b>Pełny przewodnik po statusie.</b> Huśtawka w przykładach, laboratorium ciała, leksykon zachowań i ćwiczenia na scenę.</p>' +
+      '<a class="btn primary" href="przewodnik_po_teorii_statusu_warsztat_aktorski.html">Otwórz przewodnik →</a></div>' +
+      '<div class="st">' + svg +
       '<div class="slider-row"><label for="st-a">Status A</label><input id="st-a" type="range" min="1" max="10" value="7"><output id="st-ao">7</output></div>' +
       '<div class="slider-row"><label>Status B</label><span class="gen-note">huśtawka: B = 11 − A</span><output id="st-bo">4</output></div>' +
       '<div class="two" id="st-beh"></div>' +

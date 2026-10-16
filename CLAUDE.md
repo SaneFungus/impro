@@ -21,7 +21,9 @@ python bump-wersji.py            # podgląd (nic nie zapisuje)
 python bump-wersji.py --zapisz   # zapis
 ```
 
-Skrypt podbija `?v=N` jednakowo przy wszystkich plikach. Nowy plik CSS/JS
+Skrypt podbija `?v=N` jednakowo przy wszystkich plikach, we wszystkich stronach
+`*.html` w katalogu głównym (też w przewodniku po statusie, który korzysta z
+`assets/style.css`). Nowy plik CSS/JS
 dopisany do `index.html` też dostaje `?v=N` (bieżący numer).
 
 ## Zasady pracy
