@@ -27,12 +27,15 @@
   // ---------- Sylabus ----------
   function renderSylabus() {
     var S = D.sylabus; if (!S) return;
-    var html = '<div class="syl">';
-    html += '<div class="block"><h3>Informacje</h3><dl class="dl">' +
+    // Całość i każda część zwinięte na starcie; student rozwija to, czego szuka.
+    var html = '<details class="syl-all"><summary><span class="syl-pok">Pokaż zasady</span><span class="syl-ukr">Zwiń zasady</span>' +
+      '<span class="chip">' + (S.sekcje.length + 1) + " części</span></summary>" +
+      '<div class="syl">';
+    html += '<details class="block"><summary><h3>Informacje</h3></summary><dl class="dl">' +
       S.podstawowe.map(function (p) { return "<div><dt>" + esc(p.etykieta) + "</dt><dd>" + val(p.wartosc) + "</dd></div>"; }).join("") +
-      "</dl></div>";
+      "</dl></details>";
     S.sekcje.forEach(function (s) {
-      html += '<div class="block" id="syl-' + esc(s.id) + '"><h3>' + esc(s.tytul) + (s.szkic ? ' <span class="chip">szkic</span>' : "") + "</h3>";
+      html += '<details class="block" id="syl-' + esc(s.id) + '"><summary><h3>' + esc(s.tytul) + (s.szkic ? ' <span class="chip">szkic</span>' : "") + "</h3></summary>";
       if (s.punkty) {
         html += '<dl class="dl">' + s.punkty.map(function (p) { return "<div><dt>" + esc(p.etykieta) + "</dt><dd>" + val(p.wartosc) + "</dd></div>"; }).join("") + "</dl>";
       }
@@ -41,9 +44,9 @@
       }
       if (s.tekst) html += "<p>" + esc(s.tekst) + "</p>";
       if (s.lista) html += '<ul class="list">' + s.lista.map(function (l) { return "<li>" + esc(l) + "</li>"; }).join("") + "</ul>";
-      html += "</div>";
+      html += "</details>";
     });
-    html += "</div>";
+    html += "</div></details>";
     $("#syl").innerHTML = html;
   }
 
