@@ -55,9 +55,12 @@
   function renderCwiczenia() {
     var lista = D.cwiczenia || [];
     var box = $("#cw");
+    // Cały bank zwinięty na starcie (jak sylabus); student rozwija, gdy chce.
     box.innerHTML =
+      '<details class="syl-all" id="cw-all"><summary><span class="syl-pok">Pokaż ćwiczenia</span><span class="syl-ukr">Zwiń ćwiczenia</span>' +
+      '<span class="chip">' + lista.length + " ćwiczeń</span></summary>" +
       '<div class="filters"><input id="cw-q" class="search" type="search" placeholder="Szukaj ćwiczenia…" aria-label="Szukaj ćwiczenia">' +
-      '<div class="filters" id="cw-tagi"></div></div><div class="cw-list" id="cw-list"></div>';
+      '<div class="filters" id="cw-tagi"></div></div><div class="cw-list" id="cw-list"></div></details>';
     $("#cw-q").addEventListener("input", function (e) { cwStan.q = e.target.value.toLowerCase(); rysuj(); });
     function rysuj() {
       var tagHtml = (D.tagi || []).map(function (t) {
@@ -356,7 +359,7 @@
     document.addEventListener("click", function (e) {
       var a = e.target.closest('a[href^="#cw-"]'); if (!a) return;
       var d = document.getElementById(a.getAttribute("href").slice(1));
-      if (d) d.open = true; else { e.preventDefault(); $("#cwiczenia").scrollIntoView(); }
+      if (d) { var all = $("#cw-all"); if (all) all.open = true; d.open = true; } else { e.preventDefault(); $("#cwiczenia").scrollIntoView(); }
     });
   }
 
